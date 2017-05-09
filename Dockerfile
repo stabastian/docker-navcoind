@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM php:5.6-apache
 MAINTAINER Sebastian Ponti <sebaponti@gmail.com>
 
 # Build requirements
@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y \
       bsdmainutils \
       libzmq3-dev \
       wget
-#      software-properties-common
 
 # Boost library 
 RUN apt-get install -y \
@@ -22,7 +21,7 @@ RUN apt-get install -y \
       libboost-program-options-dev libboost-test-dev libboost-thread-dev
 
 # Apache + PHP
-RUN apt-get update && apt-get install -y php5 apache2 libapache2-mod-php5
+#RUN apt-get update && apt-get install -y php5 apache2 libapache2-mod-php5
 
 # Git cli
 RUN apt-get update && apt-get install -y git-core && rm -rf /var/lib/apt/lists/*
@@ -39,7 +38,7 @@ ENV GIT_REVISION=v4.0.2.1
 
 WORKDIR /app
 
-COPY docker-navcoin-entrypoint /usr/local/bin/
+#COPY docker-navcoin-entrypoint /usr/local/bin/
 
 #VOLUME ["/code", "/data"]
 
@@ -49,6 +48,4 @@ EXPOSE 44440
 # RPC Port
 EXPOSE 44444
 
-ENTRYPOINT ["docker-navcoin-entrypoint"]
-
-CMD ["navcoind -daemon"]
+#ENTRYPOINT ["docker-navcoin-entrypoint"]

@@ -1,0 +1,49 @@
+#!/bin/bash
+
+APP_FOLDER='/app/navcoin-core'
+BDB_FOLDER="/app/db4"
+
+
+
+if [ ! -d "$APP_FOLDER" ]; then
+  git clone -b $GIT_REVISION $GIT_REPO $APP_FOLDER
+
+
+  if [ ! -d "$BDB_FOLDER" ]; then
+    mkdir -p $BDB_FOLDER
+
+    cd /tmp
+
+    # Fetch the source and verify that it is not tampered with
+    wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
+    echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4.8.30.NC.tar.gz' | sha256sum -c
+
+    # -> db-4.8.30.NC.tar.gz: OK
+    tar -xzvf db-4.8.30.NC.tar.gz
+
+    # Build the library and install to our prefix
+    cd db-4.8.30.NC/build_unix/
+
+    # Note: Do a static build so that it can be embedded into the executable, instead of having to find a .so at runtime
+    ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_FOLDER
+    make install
+
+    rm -fr /tmp/*
+  fi
+
+  cd $APP_FOLDER
+
+  # Install and configure navcoin
+  ./autogen.sh
+  ./configure LDFLAGS="-L${BDB_FOLDER}/lib/" CPPFLAGS="-I${BDB_FOLDER}/include/" --enable-hardening --without-gui --without-miniupnpc
+  make
+  make install
+fi
+
+# Start navcoin daemon
+navcoind -daemon
+
+# Start apache
+apache2-foreground
+
+exec "$@"
