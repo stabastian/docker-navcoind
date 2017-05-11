@@ -1,8 +1,8 @@
-FROM debian:latest
+FROM php:5.6-apache
 MAINTAINER Sebastian Ponti <sebaponti@gmail.com>
 
 # Build requirements
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
       build-essential \
       libcurl3-dev \
       libtool \
@@ -14,35 +14,33 @@ RUN apt-get update && apt-get install -y \
       bsdmainutils \
       libzmq3-dev \
       wget
-#      software-properties-common
+
+# PHP + Apache dependencies
+RUN apt-get install -y --no-install-recommends \
+      php5-cli \
+      php5-curl \
+      libapache2-mod-php5      
 
 # Boost library 
 RUN apt-get install -y \
       libboost-system-dev libboost-filesystem-dev libboost-chrono-dev \
       libboost-program-options-dev libboost-test-dev libboost-thread-dev
 
-# Apache + PHP
-RUN apt-get update && apt-get install -y php5 apache2 libapache2-mod-php5
-
 # Git cli
 RUN apt-get update && apt-get install -y git-core && rm -rf /var/lib/apt/lists/*
 
-# Default GIT information
-ENV GIT_REPO https://github.com/NAVCoin/navcoin-core.git
-ENV GIT_REVISION 4.0.2.1
+# Firewall-jumping support (see --with-miniupnpc and--enable-upnp-default)
+RUN apt-get install libminiupnpc-dev 
 
-      # Optional Firewall-jumping support
-      #apt-get install libminiupnpc-dev (see --with-miniupnpc and--enable-upnp-default)
+# ZMQ dependencies (provides ZMQ API 4.x) 
+#RUN apt-get install libzmq3-dev 
 
-      # ZMQ dependencies:
-      #apt-get install libzmq3-dev (provides ZMQ API 4.x) 
-
+# Enable apache rewrite module
+RUN a2enmod rewrite
 
 WORKDIR /app
 
-COPY docker-navcoin-entrypoint /usr/local/bin/
-
-RUN chmod +x /usr/local/bin/docker-navcoin-entrypoint
+#COPY docker-navcoin-entrypoint /usr/local/bin/
 
 #VOLUME ["/code", "/data"]
 
@@ -52,5 +50,4 @@ EXPOSE 44440
 # RPC Port
 EXPOSE 44444
 
-ENTRYPOINT ["docker-navcoin-entrypoint"]
-#CMD ["navcoind --daemon"]
+#ENTRYPOINT ["docker-navcoin-entrypoint"]
