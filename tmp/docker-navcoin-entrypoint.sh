@@ -3,11 +3,10 @@
 CORE_FOLDER='/app/navcoin-core'
 BDB_FOLDER="/app/db4"
 UI_FOLDER="/home/stakebox/UI"
-GIT_REPO_CORE=${GIT_REPO_CORE:https://github.com/NAVCoin/navcoin-core.git}
-GIT_REVISION_CORE=${GIT_REVISION_CORE:v4.0.3}
-GIT_REPO_UI=${GIT_REPO_UI:https://github.com/NAVCoin/navpi.git}
-GIT_REVISION_UI=${GIT_REVISION_UI:master}
-
+GIT_REPO_CORE=${GIT_REPO_CORE:-'https://github.com/NAVCoin/navcoin-core.git'}
+GIT_REVISION_CORE=${GIT_REVISION_CORE:-'v4.0.3'}
+GIT_REPO_UI=${GIT_REPO_UI:-'https://github.com/NAVCoin/navpi.git'}
+GIT_REVISION_UI=${GIT_REVISION_UI:-'master'}
 
 if [ ! -d "$CORE_FOLDER" ]; then
   git clone -b $GIT_REVISION_CORE $GIT_REPO_CORE $CORE_FOLDER
