@@ -47,7 +47,7 @@ if [ ! -d "$CORE_FOLDER" ]; then
 
   # Install and configure navcoin
   ./autogen.sh
-  ./configure LDFLAGS="-L${BDB_FOLDER}/lib/" CPPFLAGS="-I${BDB_FOLDER}/include/" --enable-hardening --without-gui --without-miniupnpc
+  ./configure LDFLAGS="-L${BDB_FOLDER}/lib/" CPPFLAGS="-I${BDB_FOLDER}/include/" --enable-hardening --without-gui --enable-upnp-default
   make
   make install
 fi
