@@ -15,7 +15,8 @@ if [ ! -d "$CORE_FOLDER" ]; then
   if [ ! -d "$UI_FOLDER" ]; then
     git clone -b $GIT_REVISION_UI $GIT_REPO_UI $UI_FOLDER
 
-    chown www-data:www-data -R $UI_FOLDER
+    chown -R www-data:www-data $UI_FOLDER
+    #chmod -R a+w /home
   fi
 
   # INSTALL BARKELY DB

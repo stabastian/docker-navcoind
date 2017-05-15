@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       wget
 
 # PHP + Apache dependencies
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -yq --no-install-recommends \
       php5-cli \
       php5-curl \
       libapache2-mod-php5
@@ -30,17 +30,22 @@ RUN apt-get install -y \
 RUN apt-get update && apt-get install -y git-core && rm -rf /var/lib/apt/lists/*
 
 # Firewall-jumping support (see --with-miniupnpc and--enable-upnp-default)
-RUN apt-get install libminiupnpc-dev
+RUN apt-get update && apt-get install -y libminiupnpc-dev
 
 # ZMQ dependencies (provides ZMQ API 4.x)
 #RUN apt-get install libzmq3-dev
 
-# Enable apache rewrite module
-RUN a2enmod rewrite
-
 WORKDIR /app
 
-#COPY docker-navcoin-entrypoint /usr/local/bin/
+ADD apache2.conf /etc/apache2/
+ADD stakebox-ui.conf /etc/apache2/sites-available/
+
+#ADD docker-navcoin-entrypoint /usr/local/bin/
+
+# Enable apache rewrite module and add site
+RUN a2enmod rewrite
+RUN a2ensite stakebox-ui.conf
+RUN a2dissite 000-default.conf
 
 #VOLUME ["/code", "/data"]
 
