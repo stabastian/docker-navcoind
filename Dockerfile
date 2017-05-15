@@ -19,9 +19,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get install -y --no-install-recommends \
       php5-cli \
       php5-curl \
-      libapache2-mod-php5      
+      libapache2-mod-php5
 
-# Boost library 
+# Boost library
 RUN apt-get install -y \
       libboost-system-dev libboost-filesystem-dev libboost-chrono-dev \
       libboost-program-options-dev libboost-test-dev libboost-thread-dev
@@ -30,10 +30,10 @@ RUN apt-get install -y \
 RUN apt-get update && apt-get install -y git-core && rm -rf /var/lib/apt/lists/*
 
 # Firewall-jumping support (see --with-miniupnpc and--enable-upnp-default)
-RUN apt-get install libminiupnpc-dev 
+RUN apt-get install libminiupnpc-dev
 
-# ZMQ dependencies (provides ZMQ API 4.x) 
-#RUN apt-get install libzmq3-dev 
+# ZMQ dependencies (provides ZMQ API 4.x)
+#RUN apt-get install libzmq3-dev
 
 # Enable apache rewrite module
 RUN a2enmod rewrite
