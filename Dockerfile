@@ -1,6 +1,32 @@
 FROM php:5.6-apache
 MAINTAINER Sebastian Ponti <sebaponti@gmail.com>
 
+ARG USER_ID
+ARG GROUP_ID
+
+# Add user with specified (or default) user/group ids
+ENV USER_ID ${USER_ID:-1000}
+ENV GROUP_ID ${GROUP_ID:-1000}
+
+# Add our user and group first to make sure their IDs get assigned consistently,
+# regardless of whatever dependencies get added
+RUN groupadd -g ${GROUP_ID} navcoin \
+	  && useradd -u ${USER_ID} -g navcoin -s /bin/bash -m -d /navcoin navcoin
+
+ENV GOSU_VERSION=1.9
+
+RUN apt-get update && apt-get install -y curl \
+      && apt-get clean \
+      && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+
+RUN curl -o /usr/local/bin/gosu -fSL https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture) \
+	  && curl -o /usr/local/bin/gosu.asc -fSL https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture).asc \
+	  && gpg --verify /usr/local/bin/gosu.asc \
+	  && rm /usr/local/bin/gosu.asc \
+	  && chmod +x /usr/local/bin/gosu
+
 # Build requirements
 RUN apt-get update && apt-get install -y --no-install-recommends \
       build-essential \
@@ -13,7 +39,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libevent-dev \
       bsdmainutils \
       libzmq3-dev \
-      wget
+      libqrencode-dev \
+      qrencode \
+      wget \
+      && rm -rf /var/lib/apt/lists/*
 
 # PHP + Apache dependencies
 RUN apt-get update && apt-get install -yq --no-install-recommends \
@@ -35,8 +64,6 @@ RUN apt-get update && apt-get install -y libminiupnpc-dev
 # ZMQ dependencies (provides ZMQ API 4.x)
 #RUN apt-get install libzmq3-dev
 
-WORKDIR /app
-
 ADD apache2.conf /etc/apache2/
 ADD stakebox-ui.conf /etc/apache2/sites-available/
 
@@ -47,12 +74,9 @@ RUN a2enmod rewrite
 RUN a2ensite stakebox-ui.conf
 RUN a2dissite 000-default.conf
 
-#VOLUME ["/code", "/data"]
+VOLUME ["/navcoin"]
 
-# Port
-EXPOSE 44440
-
-# RPC Port
-EXPOSE 44444
+# Ports
+EXPOSE 44440 44444
 
 #ENTRYPOINT ["docker-navcoin-entrypoint"]
