@@ -7,13 +7,16 @@ GIT_REVISION_CORE=${GIT_REVISION_CORE:-'v4.0.3'}
 GIT_REPO_UI=${GIT_REPO_UI:-'https://github.com/NAVCoin/navpi.git'}
 GIT_REVISION_UI=${GIT_REVISION_UI:-'master'}
 
-if [ hash navcoind 2>/dev/null ]; then
+which navcoind &>/dev/null
+
+if [ $? -ne 0 ]; then
   cd /tmp
   git clone -b $GIT_REVISION_CORE $GIT_REPO_CORE navcoin-core
  
   # INSTALL WEB INTERFACE 
   if [ ! -d "$UI_FOLDER" ]; then
-    gosu navcoin git clone -b $GIT_REVISION_UI $GIT_REPO_UI $UI_FOLDER
+    git clone -b $GIT_REVISION_UI $GIT_REPO_UI $UI_FOLDER
+    chown -R navcoin:navcoin /home/stakebox
   fi
 
   # INSTALL BARKELY DB
@@ -30,7 +33,7 @@ if [ hash navcoind 2>/dev/null ]; then
   fi
   
   # INSTALL CORE
-  cd navcoin-core
+  cd /tmp/navcoin-core
 
   # Install and configure navcoin
   ./autogen.sh
