@@ -47,8 +47,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # PHP + Apache dependencies
 RUN apt-get update && apt-get install -yq --no-install-recommends \
       php5-cli \
-      php5-curl \
-      libapache2-mod-php5
+      php5-curl
 
 # Boost library
 RUN apt-get install -y \
