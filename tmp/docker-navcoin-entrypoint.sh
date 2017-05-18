@@ -16,7 +16,8 @@ if [ $? -ne 0 ]; then
   # INSTALL WEB INTERFACE 
   if [ ! -d "$UI_FOLDER" ]; then
     git clone -b $GIT_REVISION_UI $GIT_REPO_UI $UI_FOLDER
-    chown -R navcoin:navcoin /home/stakebox
+    chown -R navcoin:navcoin /home
+    chown -R www-data:www-data $UI_FOLDER
   fi
 
   # INSTALL BARKELY DB
@@ -44,7 +45,7 @@ if [ $? -ne 0 ]; then
   rm -fr /tmp/*
 fi
 
-# Start navcoin daemon
+# Start navcoin daemoni
 gosu navcoin navcoind -daemon
 
 # Start apache
