@@ -1,5 +1,5 @@
 FROM navcoin-base
 
-ADD docker-navcoin-entrypoint.sh /usr/local/bin/docker-navcoin-entrypoint
+ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
-ENTRYPOINT ["docker-navcoin-entrypoint"]
+ENTRYPOINT ["docker-entrypoint"]

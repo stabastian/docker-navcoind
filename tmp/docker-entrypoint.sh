@@ -45,7 +45,10 @@ if [ $? -ne 0 ]; then
   rm -fr /tmp/*
 fi
 
-# Start navcoin daemoni
+# Create default config
+gosu navcoin nav_init
+
+# Start navcoin daemon
 gosu navcoin navcoind -daemon
 
 # Start apache

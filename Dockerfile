@@ -65,10 +65,11 @@ RUN apt-get update && apt-get install -y libminiupnpc-dev
 # Git cli
 RUN apt-get update && apt-get install -y git-core && rm -rf /var/lib/apt/lists/*
 
-ADD apache2.conf /etc/apache2/
-ADD stakebox-ui.conf /etc/apache2/sites-available/
+ADD ./bin /usr/local/bin
+ADD ./apache/apache2.conf /etc/apache2/
+ADD ./apache/stakebox-ui.conf /etc/apache2/sites-available/
 
-#ADD docker-navcoin-entrypoint /usr/local/bin/
+#ADD docker-entrypoint /usr/local/bin/
 
 # Enable apache rewrite module and add site
 RUN a2enmod rewrite
@@ -80,4 +81,4 @@ VOLUME ["/navcoin"]
 # Ports
 EXPOSE 44440 44444
 
-#ENTRYPOINT ["docker-navcoin-entrypoint"]
+#ENTRYPOINT ["docker-entrypoint"]

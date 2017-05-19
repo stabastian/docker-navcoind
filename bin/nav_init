@@ -1,5 +1,18 @@
-rpcuser=username
-rpcpassword=stakebox
+#!/bin/bash
+
+set -ex
+
+# This shouldn't be in the Dockerfile or containers built from the same image
+# will have the same credentials.
+if [ ! -e "$HOME/.navcoin4/navcoin.conf" ]; then
+    mkdir -p $HOME/.navcoin4
+
+    echo "Creating navcoin.conf"
+
+    # Seed a random password for JSON RPC server
+    cat <<EOF > $HOME/.navcoin4/navcoin.conf
+rpcuser=${RPCUSER:-navcoinrpc}
+rpcpassword=${RPCPASSWORD:-`dd if=/dev/urandom bs=33 count=1 2>/dev/null | base64`}
 rpcallowip=127.0.0.1
 rpcport=44444
 port=44440
@@ -78,3 +91,10 @@ addanonserver=95.183.53.184:3000
 addanonserver=95.183.52.55:3000
 addanonserver=95.183.52.28:3000
 addanonserver=95.183.52.29:3000
+EOF
+
+fi
+
+cat $HOME/.navcoin4/navcoin.conf
+
+echo "Initialization completed successfully"
