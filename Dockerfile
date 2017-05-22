@@ -68,8 +68,7 @@ RUN apt-get update && apt-get install -y git-core && rm -rf /var/lib/apt/lists/*
 ADD ./bin /usr/local/bin
 ADD ./apache/apache2.conf /etc/apache2/
 ADD ./apache/stakebox-ui.conf /etc/apache2/sites-available/
-
-#ADD docker-entrypoint /usr/local/bin/
+ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
 # Enable apache rewrite module and add site
 RUN a2enmod rewrite
@@ -81,4 +80,4 @@ VOLUME ["/navcoin"]
 # Ports
 EXPOSE 44440 44444
 
-#ENTRYPOINT ["docker-entrypoint"]
+ENTRYPOINT ["docker-entrypoint"]
