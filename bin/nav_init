@@ -11,8 +11,8 @@ if [ ! -e "$HOME/.navcoin4/navcoin.conf" ]; then
 
     # Seed a random password for JSON RPC server
     cat <<EOF > $HOME/.navcoin4/navcoin.conf
-rpcuser=${RPCUSER:-navcoinrpc}
-rpcpassword=${RPCPASSWORD:-`dd if=/dev/urandom bs=33 count=1 2>/dev/null | base64`}
+rpcuser=${RPCUSER:-username}
+rpcpassword=${RPCPASSWORD:-`stakebox`}
 rpcallowip=127.0.0.1
 rpcport=44444
 port=44440
