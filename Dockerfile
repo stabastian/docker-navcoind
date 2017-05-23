@@ -15,9 +15,7 @@ RUN groupadd -g ${GROUP_ID} navcoin \
 
 ENV GOSU_VERSION=1.9
 
-RUN apt-get update && apt-get install -y curl \
-      && apt-get clean \
-      && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && apt-get install -y curl
 
 RUN gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
 
@@ -58,11 +56,10 @@ RUN apt-get install -y \
 # Firewall-jumping support (see --with-miniupnpc and--enable-upnp-default)
 RUN apt-get update && apt-get install -y libminiupnpc-dev
 
-# ZMQ dependencies (provides ZMQ API 4.x)
-#RUN apt-get install libzmq3-dev
-
 # Git cli
-RUN apt-get update && apt-get install -y git-core && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y git-core \
+      && apt-get clean \
+      && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD ./bin /usr/local/bin
 ADD ./conf/apache2.conf /etc/apache2/
