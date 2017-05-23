@@ -41,8 +41,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libzmq3-dev \
       libqrencode-dev \
       qrencode \
-      wget \
-      && rm -rf /var/lib/apt/lists/*
+      wget
 
 # PHP + Apache dependencies
 RUN apt-get update && apt-get install -yq --no-install-recommends \
@@ -66,8 +65,8 @@ RUN apt-get update && apt-get install -y libminiupnpc-dev
 RUN apt-get update && apt-get install -y git-core && rm -rf /var/lib/apt/lists/*
 
 ADD ./bin /usr/local/bin
-ADD ./apache/apache2.conf /etc/apache2/
-ADD ./apache/stakebox-ui.conf /etc/apache2/sites-available/
+ADD ./conf/apache2.conf /etc/apache2/
+ADD ./conf/stakebox-ui.conf /etc/apache2/sites-available/
 ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
 # Enable apache rewrite module and add site
