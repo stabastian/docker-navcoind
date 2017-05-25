@@ -16,7 +16,7 @@ if [ $? -ne 0 ]; then
   # INSTALL WEB INTERFACE 
   if [ ! -d "$UI_FOLDER" ]; then
     git clone -b $GIT_REVISION_UI $GIT_REPO_UI $UI_FOLDER
-    chown -R navcoin:navcoin /home
+    chown navcoin:navcoin /home/stakebox/
     chown -R www-data:www-data $UI_FOLDER
   fi
 
@@ -32,7 +32,7 @@ if [ $? -ne 0 ]; then
     ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_FOLDER
     make install
   fi
-  
+
   # INSTALL CORE
   cd /tmp/navcoin-core
 
