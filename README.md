@@ -39,6 +39,10 @@ So if you want to reboot, upgrade or destroy the container, that files will be s
 ```
      docker logs -f navcoin-full-node
 ```
+5. Put this `localhost:8080` in your browser and voilà.
+
+---
+
 Custom Building (optional)
 --------------------------
 
@@ -64,4 +68,6 @@ Anyone and everyone is welcome to contribute.
 
 ---
 
-And that's all folks, happy Stakeing!.
+And that's all folks!.
+
+My Navcoin address for tips :) -> NakpgdX9a7iQkpKLnrVxLzGCDgioWriuMy
