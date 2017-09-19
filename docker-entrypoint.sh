@@ -3,7 +3,7 @@
 BDB_FOLDER="/usr/local/berkeley-db-4.8"
 UI_FOLDER="/home/stakebox/UI"
 GIT_REPO_CORE=${GIT_REPO_CORE:-'https://github.com/NAVCoin/navcoin-core.git'}
-GIT_REVISION_CORE=${GIT_REVISION_CORE:-'v4.0.3'}
+GIT_REVISION_CORE=${GIT_REVISION_CORE:-'v4.0.5'}
 GIT_REPO_UI=${GIT_REPO_UI:-'https://github.com/NAVCoin/navpi.git'}
 GIT_REVISION_UI=${GIT_REVISION_UI:-'master'}
 
@@ -16,6 +16,7 @@ if [ $? -ne 0 ]; then
   # INSTALL WEB INTERFACE 
   if [ ! -d "$UI_FOLDER" ]; then
     git clone -b $GIT_REVISION_UI $GIT_REPO_UI $UI_FOLDER
+    rm -fr $UI_FOLDER/.git
     chown navcoin:navcoin /home/stakebox/
     chown -R www-data:www-data $UI_FOLDER
   fi
@@ -50,6 +51,3 @@ gosu navcoin nav_init
 
 # Start navcoin daemon
 gosu navcoin navcoind -daemon
-
-# Start apache
-apache2-foreground

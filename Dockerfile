@@ -77,3 +77,4 @@ VOLUME ["/navcoin"]
 EXPOSE 44440 44444
 
 ENTRYPOINT ["docker-entrypoint"]
+CMD ["apache2-foreground"]
