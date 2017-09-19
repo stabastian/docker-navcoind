@@ -51,3 +51,6 @@ gosu navcoin nav_init
 
 # Start navcoin daemon
 gosu navcoin navcoind -daemon
+
+# Start apache server
+apache2-foreground

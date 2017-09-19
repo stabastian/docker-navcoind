@@ -7,7 +7,7 @@ Requirements
 ------------
 
 * Any phisical or virtual machine that support docker.
-* 2GB to store the blockchain files (warning, the chain is always growing)
+* 2GB to store the blockchain files (warning, the chain is always growing).
 * And 1 GB of RAM.
 
 Quick start
@@ -61,13 +61,8 @@ To get the latest version of this image run:
 ```
      docker pull sebaponti/docker-navcoind
 ```
-Contributing to this project
-----------------------------
 
-Anyone and everyone is welcome to contribute.
+Contributions
+-------------
 
----
-
-And that's all folks!.
-
-My Navcoin address for tips :) -> NakpgdX9a7iQkpKLnrVxLzGCDgioWriuMy
+Navcoin address -> NakpgdX9a7iQkpKLnrVxLzGCDgioWriuMy
