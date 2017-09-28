@@ -63,12 +63,23 @@ RUN apt-get update && apt-get install -y git-core \
 
 ADD ./bin /usr/local/bin
 ADD ./conf/apache2.conf /etc/apache2/
-ADD ./conf/stakebox-ui.conf /etc/apache2/sites-available/
+ADD ./conf/navpi.conf /etc/apache2/sites-available/
 ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
-# Enable apache rewrite module and add site
+# Create ssl certificate
+RUN mkdir /etc/apache2/ssl && cd /etc/apache2/ssl \
+      && openssl genrsa -des3 -passout pass:x -out tmp-navpi-ssl.key 2048 \
+      && openssl rsa -passin pass:x -in tmp-navpi-ssl.key -out navpi-ssl.key \
+      && openssl req -new -key navpi-ssl.key -out navpi-ssl.csr \
+      -subj "/C=NZ/ST=Auckland/L=Auckland/O=Nav Coin/OU=Nav Pi/CN=my.navpi.org" \
+      && openssl x509 -req -days 365 -in navpi-ssl.csr -signkey navpi-ssl.key -out navpi-ssl.crt \
+      && rm tmp-navpi-ssl.key navpi-ssl.csr
+
+# Enable apache modules and site
 RUN a2enmod rewrite
-RUN a2ensite stakebox-ui.conf
+RUN a2enmod php5
+RUN a2enmod ssl
+RUN a2ensite navpi.conf
 RUN a2dissite 000-default.conf
 
 VOLUME ["/navcoin"]
