@@ -39,9 +39,27 @@ So if you want to reboot, upgrade or destroy the container, that files will be s
 ```
      docker logs -f navcoin-full-node
 ```
-5. Put this `localhost:8080` in your browser and voilà.
+5. Put this `localhost:8080` in your browser add the self-signed.
 
 ---
+
+Create a new SSL certificate
+----------------------------
+
+The stakebox web app has ssl mod enabled for default, the certificate its create its created in the building procces,
+but if you want to create a new one, yo need to run this command:
+
+```
+     docker exec -it navcoin-full-node openssl req -x509 -nodes -days 3650 \
+          -newkey rsa:2048 -out /etc/apache2/ssl/navpi-ssl.crt \
+          -keyout /etc/apache2/ssl/navpi-ssl.key
+```
+
+Then we need to flush and reload apache:
+
+```
+     docker stop navcoin-full-node && docker start navcoin-full-node
+```
 
 Custom Building (optional)
 --------------------------
@@ -62,7 +80,13 @@ To get the latest version of this image run:
      docker pull sebaponti/docker-navcoind
 ```
 
+Sources
+-------
+
+- [Navcoin core](https://github.com/NAVCoin/navcoin-core)
+- [Navpi](https://github.com/NAVCoin/navpi)
+
 Contributions
 -------------
 
-Navcoin address -> NakpgdX9a7iQkpKLnrVxLzGCDgioWriuMy
+Navcoin address -> NNwo1JjToNYyfjHcxKKuAQkQNJfEe4c1op
