@@ -28,7 +28,7 @@ So if you want to reboot, upgrade or destroy the container, that files will be s
      docker run -v navcoin-data:/navcoin --name=navcoin-full-node -d \
                 -p 44440:44440 \
                 -p 127.0.0.1:44444:44444 \
-                -p 8080:80 \
+                -p 8080:443 \
                 sebaponti/docker-navcoind
 ```
 3. Check if the container its susefuly created, and its running:
@@ -88,5 +88,4 @@ Sources
 
 Contributions
 -------------
-
-Navcoin address -> NNwo1JjToNYyfjHcxKKuAQkQNJfEe4c1op
+![navcoin adrress](https://raw.githubusercontent.com/sebaponti/docker-navcoind/master/qr-code.png "Tips")
