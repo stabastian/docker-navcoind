@@ -39,15 +39,15 @@ So if you want to reboot, upgrade or destroy the container, that files will be s
 ```
      docker logs -f navcoin-full-node
 ```
-5. Put this `localhost:8080` in your browser add the self-signed.
+5. Put this `https://localhost:8080` in your browser, add the self-signed certificate and dont forget to change the default password for the Web UI.
 
 ---
 
 Create a new SSL certificate
 ----------------------------
 
-The stakebox web app has ssl mod enabled for default, the certificate its create its created in the building procces,
-but if you want to create a new one, yo need to run this command:
+The smokebox web application has ssl-mod enabled for default, the certificate its created in the image building process, 
+but if you want to create a new one, run this command:
 
 ```
      docker exec -it navcoin-full-node openssl req -x509 -nodes -days 3650 \
