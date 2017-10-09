@@ -44,14 +44,14 @@ RUN gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B42F6819007
       && chmod +x /usr/local/bin/gosu
 
 # Install Stakebox UI
-RUN cd /tmp \
-     && git clone https://github.com/NAVCoin/navpi.git /home/stakebox/UI \
-     && rm -fr /home/stakebox/UI/.git \
-     && chown navcoin:navcoin /home/stakebox/ \
-     && chown -R www-data:www-data /home/stakebox/UI
+RUN export UI_FOLDER="/home/stakebox/" && mkdir -p $UI_FOLDER && cd $UI_FOLDER \
+     && git clone https://github.com/NAVCoin/navpi.git UI \
+     && cd UI && rm -fr .git .htaccess .htaccess.swp \
+     && chown navcoin:navcoin $UI_FOLDER \
+     && chown -R www-data:www-data $UI_FOLDER/UI
 
 # Install Barkely DB
-RUN export BDB_FOLDER="/usr/local/berkeley-db-4.8" \
+RUN export BDB_FOLDER="/usr/local/berkeley-db-4.8" && cd /tmp \
      && mkdir -p $BDB_FOLDER \
      && wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz' \
      && echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4.8.30.NC.tar.gz' | sha256sum -c \
