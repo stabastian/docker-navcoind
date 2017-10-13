@@ -14,7 +14,7 @@ RUN groupadd -g ${GROUP_ID} navcoin \
       && useradd -u ${USER_ID} -g navcoin -s /bin/bash -m -d /navcoin navcoin
 
 # Enviroments for building
-ENV GIT_REVISION_CORE=${GIT_REVISION_CORE:-'v4.0.5'}
+ENV GIT_REVISION_CORE=${GIT_REVISION_CORE:-'v4.0.6'}
 
 # Installing packages
 RUN apt-get update && apt-get install -yq --no-install-recommends \
